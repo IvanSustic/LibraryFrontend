@@ -1,0 +1,64 @@
+  
+img{
+    width: 150px;
+    aspect-ratio: auto;
+    border-radius: 50%;
+    border-width: 3px;
+    border-style: solid;
+  }
+  
+  @media screen and (max-width: 1000px) {
+    img {
+      width: 110px;
+    }
+    
+  }
+
+  
+  @media screen and (max-width: 900px) {
+    img {
+      width: 180px;
+    }
+    
+  }
+
+  @media screen and (max-width: 600px) {
+    img {
+      width: 80px;
+    }
+    
+  }
+  
+  @media screen and (max-width: 450px) {
+    img {
+      width:50px;
+    }
+    
+  }
+  
+  img:hover {
+    box-shadow: 0 0 5px 1px black;
+  
+  }
+  
+  #gridTile{
+    background-color: seashell;
+    border-style: solid;
+    border-color: white;
+    border-radius: 20px;
+    border-width: 10px;
+
+  }
+    #knjizniceHeader{
+      background: none;
+      justify-content: center;
+      font-size: large;
+  
+    }
+  
+  
+    #gridTile img {
+      margin-top: 3%;
+    }
+    
+    

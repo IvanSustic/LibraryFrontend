@@ -1,0 +1,55 @@
+
+<div class="container">
+    <div class="filters">
+      <input type="text" placeholder="Pretraži naslov..." [(ngModel)]="searchTerm" />
+      <select [(ngModel)]="selectedZanr">
+        <option value="">Svi žanrovi</option>
+        <option *ngFor="let zanr of zanrovi" [value]="zanr">{{ zanr }}</option>
+      </select>
+      <select [(ngModel)]="selectedTip">
+        <option value="">Svi tipovi</option>
+        <option *ngFor="let tip of tipoviKnjiga" [value]="tip">{{ tip }}</option>
+      </select>
+      <select [(ngModel)]="selectedAutor">
+        <option value="">Svi autori</option>
+        <option *ngFor="let autor of autoriList" [value]="autor">{{ autor }}</option>
+      </select>
+            <select [(ngModel)]="selectedKnjiznica">
+        <option *ngFor="let nazivKnjiznice of knjiznice" [value]="nazivKnjiznice">{{ nazivKnjiznice }}</option>
+      </select>
+      <button (click)="resetFilters()">Reset</button>
+    </div>
+  
+    <div class="book-list">
+      <div class="book-card" *ngFor="let knjiga of paginatedKnjige" >
+        <img [src]="knjiga.slika" alt="{{ knjiga.naslov }}" />
+        <h3>{{ knjiga.naslov }}</h3>
+        <p><strong>Autor(i):</strong>
+            <span *ngFor="let autor of knjiga.autori; let last = last">
+              {{ autor.ime }} {{ autor.prezime }}<span *ngIf="!last">, </span>
+            </span>
+          </p>
+          <p><strong>Datum izdanja:</strong> {{ knjiga.datumIzdanja | date }}</p>
+          <p><strong>Žanr:</strong> {{ knjiga.zanr }}</p>
+          <p><strong>Tip knjige:</strong> {{ knjiga.tipKnjige }}</p>
+          <p><strong>Knjižnica:</strong> {{ knjiga.nazivKnjiznice }}</p>
+          <p><strong>Broj dostupnih knjiga:</strong> {{ knjiga.kolicina }}</p>
+          <button (click)="rezerviraj(knjiga)" *ngIf="rezervacijeSize<3">Rezerviraj knjigu</button>
+          <p *ngIf="rezervacijeSize>=3"><strong>Previše rezerviranih knjiga</strong>
+      </div>
+    </div>
+
+    <div class="pagination-controls" *ngIf="totalPages > 1">
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">«</button>
+
+  <button
+    *ngFor="let page of [].constructor(totalPages); let i = index"
+    (click)="changePage(i + 1)"
+    [class.active]="i + 1 === currentPage">
+    {{ i + 1 }}
+  </button>
+
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">»</button>
+</div>
+  </div>
+

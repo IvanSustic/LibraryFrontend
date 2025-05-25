@@ -1,0 +1,20 @@
+<section id="bookListPart">
+  <h2>Knjige u našim knjižnicama</h2>
+ 
+  <mat-grid-list [cols]="cols"  id="gridList">
+    <mat-grid-tile>
+      <button (click)="prev()" [disabled]="currentIndex === 0">&lt;</button>
+    </mat-grid-tile>
+    <mat-grid-tile *ngFor="let knjiga of slicedKnjige" id="gridTile"  [routerLink]="['/knjiga', knjiga.idKnjiga]" >
+      <mat-grid-tile-footer id="knjigaFooter">
+        <a href="">{{knjiga.naslov}}</a>
+      </mat-grid-tile-footer>
+      <img src={{knjiga.slika}} alt="slika">
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button (click)="next()" [disabled]="currentIndex + imagesPerPage >= knjige.length">&gt;</button>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+</section>
+

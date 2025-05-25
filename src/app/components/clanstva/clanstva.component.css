@@ -1,0 +1,69 @@
+.membership-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 1rem;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.membership-card {
+  background-color: #fdfdfd;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e0e0e0;
+  transition: transform 0.2s ease;
+}
+
+.membership-card:hover {
+  transform: scale(1.02);
+}
+
+.membership-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.membership-card p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.price {
+  font-weight: bold;
+  margin-top: 1rem;
+  color: #007acc;
+}
+
+button {
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  background-color: #007acc;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+@media (min-width: 768px) {
+  .card-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .membership-card {
+    width: 45%;
+  }
+}

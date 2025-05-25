@@ -1,0 +1,70 @@
+
+  
+  @media screen and (max-width: 1000px) {
+    img {
+      width: 110px;
+    }
+    
+  }
+
+  
+  @media screen and (max-width: 900px) {
+    img {
+      width: 180px;
+    }
+    
+  }
+
+  @media screen and (max-width: 600px) {
+    img {
+      width: 80px;
+    }
+    
+  }
+  
+  @media screen and (max-width: 450px) {
+    img {
+      width:50px;
+    }
+  }
+
+    
+img{
+    width: 150px;
+    aspect-ratio: 1/1;
+    border-width: 3px;
+    border-style: solid;
+  }
+
+  #knjigaFooter{
+    background: none;
+    justify-content: center;
+    font-size: large;
+
+  }
+  a{
+    text-decoration: none;
+  }
+
+  button {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+    transform: scale(1.1);
+  }
+  
+  button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  

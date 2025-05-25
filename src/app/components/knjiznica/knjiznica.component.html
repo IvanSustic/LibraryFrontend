@@ -1,0 +1,8 @@
+<div class="detail-container" *ngIf="knjiznica">
+  <h2>{{ knjiznica.naziv }}</h2>
+  <img [src]="knjiznica.slika" alt="{{ knjiznica.naziv }}" />
+  <p><strong>Adresa:</strong> {{ knjiznica.adresa }}</p>
+  <p><strong>Mjesto:</strong> {{ knjiznica.mjesto.naziv }}</p>
+  <p><strong>Poštanski broj:</strong> {{ knjiznica.mjesto.postanskiBroj }}</p>
+  <div id="map"></div>
+</div>

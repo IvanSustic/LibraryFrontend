@@ -1,0 +1,20 @@
+
+<div class="container" >
+    <div class="filters">
+      <input type="text" placeholder="Pretraži naziv knjižnice..." [(ngModel)]="searchTerm" />
+      <select [(ngModel)]="selectedMjesto">
+        <option value="">Sva mjesta</option>
+        <option *ngFor="let mjesto of mjesta" [value]="mjesto">{{ mjesto }}</option>
+      </select>
+      <button (click)="resetFilters()">Reset</button>
+    </div>
+  
+    <div class="knjiznica-list">
+      <div class="knjiznica-card" *ngFor="let knjiznica of filteredKnjiznice" [routerLink]="['/knjiznica', knjiznica.idKnjiznica]">
+        <img [src]="knjiznica.slika" alt="{{ knjiznica.naziv }}"   />
+        <h3>{{ knjiznica.naziv }}</h3>
+          <p><strong>Mjesto:</strong> {{ knjiznica.mjesto.naziv }}</p>
+          <p><strong>Adresa:</strong> {{ knjiznica.adresa }}</p>
+      </div>
+    </div>
+  </div>

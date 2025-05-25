@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Rezervacije</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Knjiznica</th>
+        <th>Knjiga</th>
+        <th>Datum početka</th>
+        <th>Datum kraja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rezervacija of rezervacije">
+        <td>{{ rezervacija.nazivKnjiznice }}</td>
+        <td>{{ rezervacija.nazivKnjige }}</td>
+        <td>{{ rezervacija.datumRezervacije | date: 'shortDate' }}</td>
+        <td>{{ rezervacija.krajRezervacije | date: 'shortDate' }}</td>
+        <td><button (click)="otkaziRezervaciju(rezervacija)">Otkaži</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

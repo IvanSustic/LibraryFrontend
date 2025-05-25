@@ -1,0 +1,33 @@
+<nav class="navbar">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  <span class="separator">|</span>
+  <a routerLink="/katalog" routerLinkActive="active">Katalog</a>
+    <ng-container *ngIf="isUser" >
+          <span class="separator">|</span>
+ <a routerLink="/mojeRezervacije" routerLinkActive="active">Moje Rezervacije</a>
+    <span class="separator">|</span>
+ <a routerLink="/mojKatalog" routerLinkActive="active">Moj Katalog</a>
+     <span class="separator">|</span>
+ <a routerLink="/mojePosudbe" routerLinkActive="active">Moje Posudbe</a>
+  </ng-container>
+      <ng-container *ngIf="isKnjiznicar" >
+     <span class="separator">|</span>
+ <a routerLink="/posudbe" routerLinkActive="active">Posudbe</a>
+  </ng-container>
+  <span class="separator">|</span>
+  <a routerLink="/knjiznice" routerLinkActive="active">Knjižnice</a>
+  <span class="separator">|</span>
+    <a routerLink="/clanstva" routerLinkActive="active">Članstva</a>
+  <span class="separator">|</span>
+
+
+  <ng-container *ngIf="!isLoggedIn; else loggedIn">
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <span class="separator">|</span>
+    <a routerLink="/signup" routerLinkActive="active">Signup</a>
+  </ng-container>
+
+  <ng-template #loggedIn>
+    <a href="#" (click)="logout(); $event.preventDefault()">Logout</a>
+  </ng-template>
+</nav>

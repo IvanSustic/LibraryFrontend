@@ -1,0 +1,25 @@
+<div *ngIf="hasExpiredReservations()" class="expired-banner">
+  ⚠️ Neke posudbe su istekle! Ukupna nadoplata:
+  <strong>{{ getTotalOverdueFee() | currency: 'EUR' : 'symbol' : '1.2-2' }}</strong>
+</div>
+<div class="container">
+  <h2>Posudbe</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Knjiznica</th>
+        <th>Knjiga</th>
+        <th>Datum početka</th>
+        <th>Datum kraja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let posudba of posudbe">
+        <td>{{ posudba.nazivKnjiznice }}</td>
+        <td>{{ posudba.nazivKnjige }}</td>
+        <td>{{ posudba.datumPosudbe | date: 'shortDate' }}</td>
+        <td>{{ posudba.krajPosudbe | date: 'shortDate' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

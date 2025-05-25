@@ -1,0 +1,20 @@
+<div class="membership-container">
+  <h2>Odaberi članstvo</h2>
+  <div class="card-wrapper">
+
+    <div class="membership-card">
+      <h3>📚 Pojedinačna knjižnica</h3>
+      <p>Pristup knjigama i uslugama samo u jednoj odabranoj knjižnici.</p>
+      <p class="price">Godišnja članska iskaznica 5 €</p>
+      <button *ngIf="canGet" >Odaberi</button>
+    </div>
+
+    <div class="membership-card">
+      <h3>🌍 Sve knjižnice</h3>
+      <p>Neograničen pristup svim knjižnicama unutar sustava.</p>
+      <p class="price">Godišnja članska iskaznica 10 €</p>
+      <button *ngIf="canGet">Odaberi</button>
+    </div>
+
+  </div>
+</div>

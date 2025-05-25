@@ -1,0 +1,10 @@
+<div class="knjiga-container" *ngIf="knjiga">
+  <img [src]="knjiga.slika" alt="{{ knjiga.naslov }}" class="cover" />
+  <div class="details">
+    <h2>{{ knjiga.naslov }}</h2>
+    <p><strong>Datum izdanja:</strong> {{ knjiga.datumIzdanja | date:'dd.MM.yyyy' }}</p>
+    <p><strong>Žanr:</strong> {{ knjiga.zanr.naziv }}</p>
+    <p><strong>Tip knjige:</strong> {{ knjiga.tipKnjige.naziv }}</p>
+    <p><strong>Autori:</strong> {{ autoriString }}</p>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<section id="knjiznicePart">
+        <h2>Knjižnice</h2>
+        <mat-grid-list [cols]="cols" rowHeight="2:1" id="gridList">
+          <mat-grid-tile    [routerLink]="['/knjiznica', knjiznica.idKnjiznica]"
+            *ngFor="let knjiznica of knjiznice; let i = index" 
+            id="gridTile" 
+            [colspan]="i === knjiznice.length - 1 && knjiznice.length % 2  !== 0 && cols == 2 ? 2 : 1" >
+            <mat-grid-tile-header id="knjizniceHeader">
+              <a href="">{{knjiznica.naziv}}</a>
+            </mat-grid-tile-header>
+            <img src={{knjiznica.slika}} alt="slika" >
+          </mat-grid-tile>
+        </mat-grid-list>
+      </section>
+      
+      
