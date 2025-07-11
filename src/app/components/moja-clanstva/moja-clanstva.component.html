@@ -1,0 +1,22 @@
+<div *ngIf="hasExpiredClanstvo()" class="expired-banner">
+  ⚠️ Neka članstva su istekla!
+</div>
+<div class="container">
+  <h2>Moja članstva</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Knjiznica</th>
+        <th>Datum učlanjenja</th>
+        <th>Kraj učlanjenja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let clanstvo of clanstva">
+        <td>{{ clanstvo.nazivKnjiznice }}</td>
+        <td>{{ clanstvo.datumUclanjenja | date: 'shortDate' }}</td>
+        <td>{{ clanstvo.krajUclanjenja | date: 'shortDate' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

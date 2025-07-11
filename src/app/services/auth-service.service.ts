@@ -15,7 +15,10 @@ export class AuthService {
   public isUser$ = this.isUserSubject.asObservable();
   private isKnjiznicarSubject = new BehaviorSubject<boolean>(this.isKnjiznicar());
   public isKnjiznicar$ = this.isKnjiznicarSubject.asObservable();
-
+  private isVoditeljSubject = new BehaviorSubject<boolean>(this.isVoditelj());
+  public isVoditelj$ = this.isVoditeljSubject.asObservable();
+  private isAdminSubject = new BehaviorSubject<boolean>(this.isAdmin());
+  public isAdmin$ = this.isAdminSubject.asObservable();
 
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -46,6 +49,8 @@ export class AuthService {
     this.isLoggedInSubject.next(this.isLoggedIn());
     this.isUserSubject.next(this.isUser());
     this.isKnjiznicarSubject.next(this.isKnjiznicar());
+    this.isVoditeljSubject.next(this.isVoditelj());
+    this.isAdminSubject.next(this.isAdmin());
   }
 
   storeEmail(email: string): void {
@@ -57,14 +62,16 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/login']);
+    this.isLoggedInSubject.next(this.isLoggedIn());
+    this.isUserSubject.next(this.isUser());
+    this.isKnjiznicarSubject.next(this.isKnjiznicar());
+    this.isVoditeljSubject.next(this.isVoditelj());
+    this.isAdminSubject.next(this.isAdmin());
     return this.http.post('http://localhost:8080/auth/logout', {}, {
       withCredentials: true
-    }).pipe(
-      tap(() => {
-        localStorage.removeItem(this.tokenKey);
-        this.router.navigate(['/login']);
-      })
-    );
+    });
   }
 
   isLoggedIn(): boolean {
@@ -95,6 +102,16 @@ export class AuthService {
     return this.getUserRole()?.includes('Knjižničar') || false;
   }
 
+   isVoditelj(): boolean {
+    return this.getUserRole()?.includes('Voditelj knjižnice') || false;
+  }
+
+  isAdmin(): boolean {
+    return this.getUserRole()?.includes('Admin') || false;
+  }
+
+
+
   refreshToken() {
     if (this.isUser()) {
     return this.http.post<{ accessToken: string }>('http://localhost:8080/auth/refresh/user', {}, {withCredentials: true});
@@ -102,6 +119,17 @@ export class AuthService {
       return this.http.post<{ accessToken: string }>('http://localhost:8080/auth/refresh/zaposlenik', {}, {withCredentials: true});
     }
   }
+
+  requestReset(email: string) {
+   return this.http.post('http://localhost:8080/auth/request-reset', { email });
+  }
+
+reset(token: string, newLozinka: string) {
+  return this.http.post('http://localhost:8080/auth/reset-password', {
+    token: token,
+    newLozinka: newLozinka
+  });
+}
 
 
 }

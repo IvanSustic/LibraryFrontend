@@ -6,7 +6,7 @@ import { RezervacijaService } from '../../services/rezervacija.service';
   selector: 'app-moje-rezervacije',
   standalone: false,
   templateUrl: './moje-rezervacije.component.html',
-  styleUrl: './moje-rezervacije.component.css'
+  styleUrl: '../knjige/knjige.component.css'
 })
 export class MojeRezervacijeComponent implements OnInit {
 

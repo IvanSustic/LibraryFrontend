@@ -1,0 +1,59 @@
+<div class="container">
+  <h2>Mjesta</h2>
+
+<form #mjestoForm="ngForm" (ngSubmit)="onSubmit(mjestoForm)" novalidate>
+  <div>
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" name="naziv" [(ngModel)]="selectedMjesto.naziv" required #naziv="ngModel"/>
+    <div *ngIf="naziv.invalid && naziv.touched" class="error">
+      Naziv je obavezan.
+    </div>
+  </div>
+
+ <div>
+    <label for="postanskiBroj">Poštanski broj:</label>
+    <input type="number" id="postanskiBroj" name="postanskiBroj" [(ngModel)]="selectedMjesto.postanskiBroj" required min="0" #postanskiBroj="ngModel"/>
+    <div *ngIf="postanskiBroj.invalid && postanskiBroj.touched" class="error">
+      Poštanski broj je obavezan i mora biti veći od 0.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="mjestoForm.invalid">{{ selectedMjesto.idMjesto ? 'Promijeni' : 'Spremi' }}</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
+</div>
+<div class="container">
+<div class="filters">
+  <div> <label>Naziv</label>
+  <input type="text" [(ngModel)]="filterNaziv" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Poštanski broj</label>
+  <input type="text" [(ngModel)]="filterPostanskiBroj" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Naziv</th>
+        <th>Poštanski broj</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mjesto of paginatedMjesta">
+        <td>{{ mjesto.naziv }}</td>
+        <td>{{ mjesto.postanskiBroj }}</td>
+        <td>
+          <button (click)="edit(mjesto)">Edit</button>
+          <button (click)="delete(mjesto.idMjesto!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

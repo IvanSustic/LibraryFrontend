@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { KnjzinicaService } from '../../services/knjzinica-service.service';
+import { KnjiznicaService } from '../../services/knjizica-service';
 import { Knjiznica } from '../../model/knjiznica.model';
 
 @Component({
@@ -15,7 +15,7 @@ export class KnjiznicaFullListComponent {
   selectedMjesto = '';
 
   mjesta: string[] = [];
-  constructor(private knjiznicaService: KnjzinicaService){}
+  constructor(private knjiznicaService: KnjiznicaService){}
 
     ngOnInit(): void {
       this.knjiznicaService.getKnjiznice().subscribe(data =>{ 

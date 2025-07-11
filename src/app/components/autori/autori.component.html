@@ -1,0 +1,75 @@
+<div class="container">
+  <h2>Autori</h2>
+
+<form #autorForm="ngForm" (ngSubmit)="onSubmit(autorForm)" novalidate>
+  <div>
+    <label for="ime">Ime:</label>
+    <input type="text" id="ime" name="ime" [(ngModel)]="selectedAutor.ime" required #ime="ngModel"/>
+    <div *ngIf="ime.invalid && ime.touched" class="error">
+      Ime je obavezno.
+    </div>
+  </div>
+
+  <div>
+    <label for="prezime">Prezime:</label>
+    <input type="text" id="prezime" name="prezime" [(ngModel)]="selectedAutor.prezime" required #prezime="ngModel"/>
+    <div *ngIf="prezime.invalid && prezime.touched" class="error">
+      Prezime je obavezno.
+    </div>
+  </div>
+
+  <div>
+    <label for="datumRodjenja">Datum rođenja:</label>
+    <input type="date" id="datumRodjenja" name="datumRodjenja"  [(ngModel)]="selectedAutor.datumRodjenja" required #datumRodjenja="ngModel" />
+    <div *ngIf="(datumRodjenja.invalid && datumRodjenja.touched) || (!isDateValied() && datumRodjenja.touched)" class="error">
+      Datum mora biti prije današnjeg.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="autorForm.invalid || !isDateValied()">{{ selectedAutor.idAutor ? 'Promijeni' : 'Spremi' }}</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
+</div>
+<div class="container">
+  <div class="filters">
+  <div> <label>Ime</label>
+  <input type="text" [(ngModel)]="filterIme" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div> <label>Prezime</label>
+  <input type="text" [(ngModel)]="filterPrezime" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Datum od</label>
+  <input type="date" [(ngModel)]="filterDatumAfter" (change)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Datum do</label>
+  <input type="date" [(ngModel)]="filterDatumBefore" (change)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Datum Rođenja</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let autor of paginatedAutor">
+        <td>{{ autor.ime }}</td>
+        <td>{{ autor.prezime }}</td>
+        <td>{{ autor.datumRodjenja |  date:'yyyy-MM-dd' }}</td>
+        <td>
+          <button (click)="edit(autor)">Edit</button>
+          <button (click)="delete(autor.idAutor!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

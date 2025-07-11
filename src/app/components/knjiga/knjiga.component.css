@@ -3,12 +3,12 @@
   margin: 2rem auto;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #f9f5f0;
   border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 16px rgba(50, 35, 10, 0.1);
+  font-family: 'Georgia', serif;
+  color: #3e2f1c;
 }
 
 .cover {
@@ -17,24 +17,27 @@
   object-fit: contain;
   border-radius: 12px;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(50, 35, 10, 0.08);
+  border: 1px solid #d7ccc8;
 }
 
 .details h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #007acc;
+  color: #6d4c41;
+  border-bottom: 2px solid #c1a97b;
+  padding-bottom: 0.4rem;
 }
 
 .details p {
   font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  color: #5d4037;
 }
 
 strong {
-  color: #444;
+  color: #4e342e;
 }
-
 
 @media (min-width: 768px) {
   .knjiga-container {
@@ -44,6 +47,7 @@ strong {
 
   .cover {
     width: 40%;
+    margin-bottom: 0;
   }
 
   .details {

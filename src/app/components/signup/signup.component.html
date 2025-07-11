@@ -5,7 +5,7 @@
     <label for="ime">Ime</label>
     <input id="ime" type="text" formControlName="ime" />
     <div class="error" *ngIf="submitted && signupForm.get('ime')?.invalid">
-      <small>First name is required.</small>
+      <small>Nedostaje ime.</small>
     </div>
   </div>
 
@@ -32,6 +32,14 @@
     <div class="error" *ngIf="submitted && signupForm.get('lozinka')?.invalid">
       <small *ngIf="signupForm.get('lozinka')?.errors?.['required']">Nedostaje lozinka.</small>
       <small *ngIf="signupForm.get('lozinka')?.errors?.['minlength']">Lozinka mora imati barem 6 znakova.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="lozinka2">Ponovite lozinku</label>
+    <input id="lozinka2" type="password" formControlName="lozinka2" />
+    <div class="error" *ngIf="submitted && signupForm.get('lozinka2')?.invalid">
+      <small *ngIf="signupForm.errors?.['passwordMismatch']">Lozinke se moraju podudarati.</small>
     </div>
   </div>
 

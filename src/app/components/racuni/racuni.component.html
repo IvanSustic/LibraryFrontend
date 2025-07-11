@@ -1,0 +1,67 @@
+<div class="container">
+    <h2>Računi</h2>
+<div class="filters">
+  <div> <label>Ime korisnika</label>
+  <input type="text" [(ngModel)]="filterImeKorisnika" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Prezime korisnika</label>
+  <input type="text" [(ngModel)]="filterPrezimeKorisnikaa" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Ime zaposlenika</label>
+  <input type="text" [(ngModel)]="filterImeZaposlenika" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Prezime zaposlenika</label>
+  <input type="text" [(ngModel)]="filterPrezimeZaposlenika" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Tip racuna</label>
+  <input type="text" [(ngModel)]="filterTipRacuna" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Opis</label>
+  <input type="text" [(ngModel)]="filterOpis" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Cijena min</label>
+  <input type="number" [(ngModel)]="filterCijenaMin" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Cijena max</label>
+  <input type="number" [(ngModel)]="filterCijenaMax" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Datum od</label>
+  <input type="date" [(ngModel)]="filterDatumAfter" (change)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Datum do</label>
+  <input type="date" [(ngModel)]="filterDatumBefore" (change)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>  
+  <table>
+    <thead>
+       <tr>
+        <th>Zaposlenik</th>
+        <th>Korisnik</th>
+        <th>Cijena</th>
+        <th>Opis</th>
+        <th>Datum</th>
+        <th>Tip Računa</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let racun of paginatedRacuni">
+        <td>{{ racun.imeZaposlenik +" "+racun.prezimeZaposlenika }}</td>
+        <td>{{ racun.imeKorisnika +" "+racun.prezimeKorisnika }}</td>
+        <td>{{ racun.cijena | currency:'EUR':'symbol':'1.2-2' }}</td>
+        <td>{{ racun.opis }}</td>
+        <td>{{ racun.datum | date:'dd.MM.yyyy' }}</td>
+        <td>{{ racun.tipRacuna }}</td>
+        <td>
+          <button (click)="ispisi(racun)">Ispiši</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

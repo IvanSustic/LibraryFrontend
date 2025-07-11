@@ -1,0 +1,56 @@
+<div class="container">
+  <h2>Dodaj novo članstvo</h2>
+
+  <form [formGroup]="clanstvoForm" (ngSubmit)="onSubmit()">
+    <label for="idKorisnik">Korisnik (email):</label>
+    <select formControlName="idKorisnik" required>
+      <option value="">-- Odaberi korisnika --</option>
+      <option *ngFor="let k of korisnici" [value]="k">{{ k }}</option>
+    </select>
+
+    <label for="idKnjiznica">Knjižnica:</label>
+    <select formControlName="idKnjiznica" required>
+      <option value="">-- Odaberi knjižnicu --</option>
+      <option *ngFor="let knj of knjiznice" [value]="knj.idKnjiznica">{{ knj.naziv }}</option>
+      <option value="-1">Sve knjižnice</option>
+    </select>
+    <button type="submit"  [disabled]="clanstvoForm.invalid || clanstvoForm.value.idKnjiznica == -1">Dodaj članstvo</button>
+    <button type="button" (click)="dodajSva()" [disabled]="clanstvoForm.invalid || clanstvoForm.value.idKnjiznica != -1">
+    Dodaj sva članstva
+  </button>
+</form>
+</div>
+
+
+<div class="container">
+    <h2>Članstva</h2>
+     <div class="filters">
+      <input type="text" placeholder="Pretraži email..." [(ngModel)]="searchTerm" />
+            <select [(ngModel)]="selectedKnjiznica">
+        <option value="">Sve knjižnice</option>
+        <option *ngFor="let knjiznica of knjiznice" [value]="knjiznica.naziv">{{ knjiznica.naziv }}</option>
+      </select>
+      <button (click)="resetFilters()">Reset</button>
+    </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Knjiznica</th>
+        <th>Datum učlanjenja</th>
+        <th>Kraj učlanjenja</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let clanstvo of filterdClanstva">
+        <td>{{ clanstvo.email}}</td>
+        <td>{{ clanstvo.nazivKnjiznice }}</td>
+        <td>{{ clanstvo.datumUclanjenja | date: 'shortDate' }}</td>
+        <td>{{ clanstvo.krajUclanjenja | date: 'shortDate' }}</td>
+        <td><button (click)="produziClanstvo(clanstvo)">Produži članstvo</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

@@ -13,6 +13,8 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false
   isUser = false
   isKnjiznicar = false
+  isVoditelj = false
+  isAdmin = false
   
   ngOnInit() {
       this.authService.isLoggedIn$.subscribe(status => {
@@ -26,6 +28,14 @@ export class NavbarComponent implements OnInit {
     this.authService.isKnjiznicar$.subscribe(status => {
       this.isKnjiznicar = status;
     });
+
+    this.authService.isVoditelj$.subscribe(status => {
+      this.isVoditelj = status;
+    });
+
+    this.authService.isAdmin$.subscribe(status => {
+      this.isAdmin = status;
+    });
   }
 
   logout(){
@@ -35,6 +45,8 @@ export class NavbarComponent implements OnInit {
         this.isLoggedIn = false;
         this.isUser = false;
         this.isKnjiznicar = false;
+        this.isVoditelj = false;
+        this.isAdmin = false;
       },
       error: (err) => {
         console.error('Logout failed', err);

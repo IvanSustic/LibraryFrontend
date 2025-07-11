@@ -7,4 +7,5 @@ export interface Rezervacija {
     nazivKnjige: string;
     datumRezervacije: Date; 
     krajRezervacije: Date;
+    korisnikEmail: string;
   }

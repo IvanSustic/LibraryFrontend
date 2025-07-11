@@ -1,0 +1,87 @@
+<div class="container">
+  <h2>Knjige na raspolaganju</h2>
+
+<form #knjigaForm="ngForm" (ngSubmit)="onSubmit(knjigaForm)" novalidate>
+  <div>
+    <label for="knjiga">Knjiga:</label>
+    <select id="knjiga" name="knjiga" [compareWith]="compareById" [(ngModel)]="selectedRaspolaganje.idKnjiga" required #knjiga="ngModel"
+    [disabled]="isEditing">
+      <option [ngValue]="null" disabled>Odaberite knjigu</option>
+      <option *ngFor="let knjiga of knjigaList" [ngValue]="knjiga.idKnjiga">{{ knjiga.naslov }}</option>
+    </select>
+    <div *ngIf="knjiga.invalid && knjiga.touched" class="error">
+      Knjiga je obavezna.
+    </div>
+  </div>
+
+  <div>
+    <label for="knjiznica">Knjižnica:</label>
+    <select id="knjiznica" [compareWith]="compareById" name="knjiznica" [(ngModel)]="selectedRaspolaganje.idKnjiznica" required #knjiznica="ngModel"
+    [disabled]="isEditing">
+      <option [ngValue]="null" disabled>Odaberite knjižnicu</option>
+      <option *ngFor="let knjiznica of knjiznicaList" [ngValue]="knjiznica.idKnjiznica">{{ knjiznica.naziv }}</option>
+    </select>
+    <div *ngIf="knjiznica.invalid && knjiznica.touched" class="error">
+      Knjižnica je obavezna.
+    </div>
+  </div>
+
+  <div>
+    <label for="kolicina">Količina</label>
+    <input type="number" id="kolicina"
+           [(ngModel)]="selectedRaspolaganje.kolicina" name="kolicina" #kolicina="ngModel" step="1" min="0" required>
+    <div *ngIf="(kolicina.invalid && kolicina.touched)" class="error">
+        Količina izdanja je neispravna.
+    </div>
+  </div>
+
+
+  <button type="submit" [disabled]="knjigaForm.invalid">
+    {{ isEditing ? 'Promijeni' : 'Spremi' }}
+  </button>
+  <button type="button" (click)="cancel()">Poništi</button>
+</form>
+</div>
+<div class="container">
+<div class="filters">
+  <div> <label>Naslov</label>
+  <input type="text" [(ngModel)]="filterNaslov" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Naziv knjiznice</label>
+  <input type="text" [(ngModel)]="filterNaziv" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Količina min</label>
+  <input type="number" [(ngModel)]="filterKolicinaMin" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Količina max</label>
+  <input type="number" [(ngModel)]="filterKolicinaMax" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+       <tr>
+        <th>Naslov</th>
+        <th>Naziv</th>
+        <th>Kolicina</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let raspolaganje of paginatedRaspolaganja">
+        <td>{{ raspolaganje.naslov }}</td>
+        <td>{{ raspolaganje.nazivKnjiznice }}</td>
+        <td>{{ raspolaganje.kolicina }}</td>
+        <td>
+          <button (click)="edit(raspolaganje)">Edit</button>
+          <button (click)="delete(raspolaganje)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

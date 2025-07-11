@@ -3,5 +3,6 @@ export interface Korisnik {
     ime: string;
     prezime: string;
     email: string;
-    lozinka: string;
+    lozinka?: string;
+    iskljucen?: boolean;
   }

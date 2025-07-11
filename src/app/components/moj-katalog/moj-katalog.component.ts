@@ -5,6 +5,7 @@ import { DozvoljenaKnjiga } from '../../model/dozvoljenaknjiga.model';
 import { KorisnikService } from '../../services/korisnik.service';
 import { RezervacijaService } from '../../services/rezervacija.service';
 import { Rezervacija } from '../../model/rezervacija.model';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-moj-katalog',
@@ -32,7 +33,9 @@ rezervacijeSize: number = 0;
   tipoviKnjiga: string[] = [];
   knjiznice: string[] = [];
 
-  constructor(private korisnikService: KorisnikService, private rezervacijaService: RezervacijaService) {
+  constructor(private korisnikService: KorisnikService, private rezervacijaService: RezervacijaService,
+    private snackBar: SnackBarService
+  ) {
     }
 
 
@@ -88,11 +91,14 @@ rezervacijeSize: number = 0;
           knjiga.kolicina -= 1;
           
         },
-        error: (error: any) => {
-          console.error('Greška prilikom rezervacije:', error);
+        error: (response: any) => {
+          console.error('Greška prilikom rezervacije:', response);
+          this.snackBar.poruka( response.error); 
         }
       });
     }
+
+    
 
 
 get totalPages(): number {

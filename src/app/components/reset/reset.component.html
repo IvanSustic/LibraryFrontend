@@ -1,0 +1,8 @@
+<form (submit)="submit()" class="login-form">
+<h2>Resetiraj lozinku</h2>
+      <div class="form-group">
+    <label for="email">Email:</label>
+  <input [(ngModel)]="email" name="email" type="email"  required />
+  </div>
+  <button [disabled]="disable" type="submit">Pošalji link za reset</button>
+</form>

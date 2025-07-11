@@ -1,0 +1,152 @@
+<div class="container">
+  <h2>{{ isAdmin ? 'Zaposlenici' : 'Knjižničari' }}</h2>
+
+<form #zaposlenikForm="ngForm" (ngSubmit)="onSubmit(zaposlenikForm)" novalidate>
+  <div>
+    <label for="ime">Ime:</label>
+    <input type="text" id="ime" name="ime" [(ngModel)]="selectedZaposlenik.ime" required #ime="ngModel" />
+    <div *ngIf="ime.invalid && ime.touched" class="error">
+      Ime je obavezno.
+    </div>
+  </div>
+
+  <div>
+    <label for="prezime">Prezime:</label>
+    <input type="text" id="prezime" name="prezime" [(ngModel)]="selectedZaposlenik.prezime" required #prezime="ngModel" />
+    <div *ngIf="prezime.invalid && prezime.touched" class="error">
+      Prezime je obavezno.
+    </div>
+  </div>
+
+<div>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" [(ngModel)]="selectedZaposlenik.email" required email #email="ngModel" />
+  <div *ngIf="email.invalid && email.touched" class="error">
+    <div *ngIf="email.errors?.['required']">Email je obavezan.</div>
+    <div *ngIf="email.errors?.['email']">Email nije ispravnog formata.</div>
+  </div>
+</div>
+
+  
+ <div>
+    <label for="lozinka">Lozinka:</label>
+    <input type="password" id="lozinka" name="lozinka" [(ngModel)]="selectedZaposlenik.lozinka" #lozinka="ngModel" />
+    <div *ngIf="lozinka.invalid && lozinka.touched && !selectedZaposlenik.idZaposlenik" class="error">
+      Lozinka je obavezna prilikom novog unosa.
+    </div>
+  </div>
+
+ <div>
+    <label for="lozinka2">Ponovite lozinku:</label>
+    <input type="password" id="lozinka2" name="lozinka2" [(ngModel)]="lozinkaDva" #lozinka2="ngModel"/>
+    <div *ngIf="(lozinka2.invalid && lozinka2.touched) || lozinkaDva!=selectedZaposlenik.lozinka" class="error">
+      Lozinke se moraju podudarati.
+    </div>
+  </div>
+
+  <div>
+    <label for="radnoMjesto">Radno mjesto:</label>
+    <select id="radnoMjesto" name="radnoMjesto"  [compareWith]="compareById"  [(ngModel)]="selectedZaposlenik.radnaMjesta" multiple required #radnoMjesto="ngModel">
+      <option [ngValue]="null" disabled>Odaberite radno Mjesto</option>
+      <option *ngFor="let rm of radnaMjesta" [ngValue]="rm">{{ rm.naziv }}</option>
+    </select>
+    <div *ngIf="radnoMjesto.invalid && radnoMjesto.touched" class="error">
+      Radno mjesto je obavezno.
+    </div>
+  </div>
+
+    <div>
+    <label for="knjiznice">Knjižnice:</label>
+    <select id="knjiznice" [compareWith]="compareById" name="knjiznice" [(ngModel)]="selectedZaposlenik.knjiznice" multiple required #knjiznice="ngModel">
+      <option [ngValue]="null" disabled>Odaberite knjižnice</option>
+      <option *ngFor="let a of knjizniceList" [ngValue]="a">{{ a.naziv }}</option>
+    </select>
+    <div *ngIf="knjiznice.invalid && knjiznice.touched" class="error">
+      Potrebno je odabrati barem jednu knjižnicu.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="zaposlenikForm.invalid || lozinkaDva!=selectedZaposlenik.lozinka || (!selectedZaposlenik.idZaposlenik && !lozinka.value)">
+    {{ selectedZaposlenik.idZaposlenik ? 'Promijeni' : 'Spremi' }}
+  </button>
+  <button type="button" (click)="cancel()">Poništi</button>
+</form>
+</div>
+
+<div class="container">
+  <div class="filters">
+  <label>
+    Ime:
+    <input type="text" [(ngModel)]="filterIme" (input)="applyFiltersAndPagination()" />
+  </label>
+  <label>
+    Prezime:
+    <input type="text" [(ngModel)]="filterPrezime" (input)="applyFiltersAndPagination()" />
+  </label>
+    <br>
+  <label>
+    Email:
+    <input type="text" [(ngModel)]="filterEmail" (input)="applyFiltersAndPagination()" />
+  </label>
+
+<div><label>Radno mjesto</label>
+  <select [(ngModel)]="filterRadnoMjesto" (change)="applyFiltersAndPagination()">
+    <option [ngValue]="null">Sva radna mjesta</option>
+    <option *ngFor="let rm of radnaMjesta" [ngValue]="rm.idRadnoMjesto">
+     {{rm.naziv}}
+    </option>
+  </select>
+    </div>
+
+    <div><label>Knjižnica</label>
+  <select [(ngModel)]="filterKnjiznice" (change)="applyFiltersAndPagination()">
+    <option [ngValue]="null">Sve knjižnice</option>
+    <option *ngFor="let kn of knjizniceList" [ngValue]="kn.idKnjiznica">
+      {{kn.naziv}}
+    </option>
+  </select>
+    </div>
+
+  <label>
+    Status:
+    <select [(ngModel)]="filterIskljucen" (change)="applyFiltersAndPagination()">
+      <option value="svi">Svi</option>
+      <option value="aktivni">Aktivni</option>
+      <option value="iskljuceni">Isključeni</option>
+    </select>
+  </label>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+       <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Email</th>
+        <th>Radno mjesto</th>
+        <th>Knjižnice</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zaposlenik of paginatedZaposlenici">
+        <td>{{ zaposlenik.ime }}</td>
+        <td>{{ zaposlenik.prezime }}</td>
+        <td>{{ zaposlenik.email }}</td>
+        <td>{{ getKnjiznicaNaziv(zaposlenik.knjiznice) }}</td>
+        <td>{{ getRadnaMjestaNaziv(zaposlenik.radnaMjesta) }}</td>
+        <td>
+          <button (click)="edit(zaposlenik)">Edit</button>
+          <button *ngIf="!zaposlenik.iskljucen" (click)="disable(zaposlenik)">Dekativiraj</button>
+          <p *ngIf="zaposlenik.iskljucen">Ovaj zaposlenik je isključen</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

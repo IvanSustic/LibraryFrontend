@@ -1,6 +1,8 @@
 export interface Clanstvo {
-    idKorisnik: number;
     idKnjiznica: number;
-    datumUclanjivanja: Date;
-    krajUclanjivanja: Date;
-  }
+    idKorisnik: number;
+    nazivKnjiznice: string;
+    email: string;
+    datumUclanjenja: Date;
+    krajUclanjenja: Date;
+}

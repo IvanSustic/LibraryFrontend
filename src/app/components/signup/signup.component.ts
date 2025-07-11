@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service.service';
 import { Router } from '@angular/router';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,8 @@ export class SignupComponent  implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -25,10 +27,21 @@ export class SignupComponent  implements OnInit {
       ime: ['', Validators.required],
       prezime: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      lozinka: ['', [Validators.required, Validators.minLength(6)]]
-    });
+      lozinka: ['', [Validators.required, Validators.minLength(6)]],
+      lozinka2: ['', [Validators.required, Validators.minLength(6)]]
+    },
+    {validator: this.passwordMatch });
   }
 
+ passwordMatch(form: FormGroup) {
+        const password = form.get('lozinka')?.value;
+        const confirmPassword = form.get('lozinka2')?.value;
+        if (password !== confirmPassword) {
+            return { passwordMismatch: true };
+        }
+        return null;
+    }
+  
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = '';
@@ -45,8 +58,7 @@ export class SignupComponent  implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        console.error('Signup failed', error);
-        this.errorMessage = 'Signup failed. Please try again.';
+        this.snackBar.poruka(error.error);
       }
     });
   }

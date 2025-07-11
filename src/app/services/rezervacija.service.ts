@@ -17,12 +17,21 @@ export class RezervacijaService {
     return this.http.get<Rezervacija[]>(this.apiUrl+"/forUser");
   }
 
+   getRezervacijeForZaposlenik(): Observable<Rezervacija[]> {
+      return this.http.get<Rezervacija[]>(this.apiUrl+"/forZaposlenik");
+    }
+
+    
+  posudiRezerviranuKnjigu(rezervacija:  any): Observable<any> {
+    return this.http.post(this.apiUrl+"/posudiRezerviranu", rezervacija);
+  }
+
   reserveKnjiga(rezervacija:  any): Observable<any> {
     return this.http.post(this.apiUrl+"/rezerviraj", rezervacija);
   }
 
   otkaziRezervaciju(idRezervacija: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${idRezervacija}`);
+    return this.http.delete(`${this.apiUrl}/delete/${idRezervacija}`);
   }
 
 }

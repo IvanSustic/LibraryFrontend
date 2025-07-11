@@ -23,10 +23,16 @@ export class PosudbaService {
     return this.http.get<Posudba[]>(this.apiUrl+"/forZaposlenik");
   }
 
-  
-  otkaziRezervaciju(idRezervacija: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${idRezervacija}`);
+    posudiKnjigu(posudba:  any): Observable<any> {
+    return this.http.post(this.apiUrl+"/posudi", posudba);
   }
 
+  vratiKnjigu(idRezervacija: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${idRezervacija}`);
+  }
+
+  ostecenaKnjiga(idRezervacija: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/ostecena/${idRezervacija}`);
+  }
  
 }

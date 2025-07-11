@@ -1,4 +1,5 @@
 <div class="container">
+    <h2>Posudbe</h2>
    <div class="filters">
       <input type="text" placeholder="Pretraži email..." [(ngModel)]="searchTerm" />
             <select [(ngModel)]="selectedKnjiznica">
@@ -7,7 +8,6 @@
       </select>
       <button (click)="resetFilters()">Reset</button>
     </div>
-  <h2>Posudbe</h2>
   <table class="table">
     <thead>
       <tr>
@@ -16,6 +16,7 @@
         <th>Knjiga</th>
         <th>Datum početka</th>
         <th>Datum kraja</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -26,7 +27,8 @@
         <td>{{ posudba.nazivKnjige }}</td>
         <td>{{ posudba.datumPosudbe | date: 'shortDate' }}</td>
         <td>{{ posudba.krajPosudbe | date: 'shortDate' }}</td>
-        <td><button (click)="vratiKnjigu(posudba)">Vračeno</button></td>
+        <td><button (click)="vratiKnjigu(posudba)">Vrati knjigu</button></td>
+       <td> <button (click)="osetecenaKnjiga(posudba)">Oštećena knjiga</button></td>
       </tr>
     </tbody>
   </table>

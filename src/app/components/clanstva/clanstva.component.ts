@@ -10,9 +10,6 @@ import { AuthService } from '../../services/auth-service.service';
 export class ClanstvaComponent implements OnInit {
 constructor(private authService: AuthService) { }
 
-  canGet = false
-
 ngOnInit(): void {
-  this.canGet = this.authService.isKnjiznicar();
 }
 }

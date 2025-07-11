@@ -1,0 +1,47 @@
+<div class="container">
+  <h2>Žanri</h2>
+
+<form #zanrForm="ngForm" (ngSubmit)="onSubmit(zanrForm)" novalidate>
+  <div>
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" name="naziv" [(ngModel)]="selectedZanr.naziv" required #naziv="ngModel"/>
+    <div *ngIf="naziv.invalid && naziv.touched" class="error">
+      Naziv je obavezan.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="zanrForm.invalid">{{ selectedZanr.idZanr ? 'Promijeni' : 'Spremi' }}</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
+</div>
+
+<div class="container">
+<div class="filters">
+  <div> <label>Žanr</label>
+  <input type="text" [(ngModel)]="filterNaziv" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Naziv</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zanr of paginatedZanri">
+        <td>{{ zanr.naziv }}</td>
+        <td>
+          <button (click)="edit(zanr)">Edit</button>
+          <button (click)="delete(zanr.idZanr!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+      <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

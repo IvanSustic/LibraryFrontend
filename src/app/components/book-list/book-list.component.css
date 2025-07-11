@@ -47,7 +47,8 @@ img{
   }
 
   button {
-    background-color: #ffffff;
+    background-color: #5a4632;
+    color: white;
     border: none;
     border-radius: 50%;
     width: 48px;

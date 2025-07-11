@@ -1,0 +1,162 @@
+<div class="container">
+  <h2>Knjige</h2>
+
+<form #knjigaForm="ngForm" (ngSubmit)="onSubmit(knjigaForm)" novalidate>
+  <div>
+    <label for="naslov">Naslov:</label>
+    <input type="text" id="naslov" name="naslov" [(ngModel)]="selectedKnjiga.naslov" required #naslov="ngModel" />
+    <div *ngIf="naslov.invalid && naslov.touched" class="error">
+      Naslov je obavezan.
+    </div>
+  </div>
+
+  <div>
+    <label for="datumIzdanja">Datum izdanja:</label>
+    <input type="date" id="datumIzdanja" name="datumIzdanja" [(ngModel)]="selectedKnjiga.datumIzdanja" required
+      #datumIzdanja="ngModel" />
+    <div *ngIf="(datumIzdanja.invalid && datumIzdanja.touched) || (!isDateValid() && datumIzdanja.touched)" class="error">
+      Datum izdanja je neispravan.
+    </div>
+    </div>
+
+<div>
+    <label for="slikaFile">Učitaj sliku:</label>
+    <input type="file" id="slikaFile" name="slikaFile" (change)="onFileSelected($event)" accept="image/*" />
+
+    <div *ngIf="selectedKnjiga.slika || imageUrlPreview" class="image-preview-container">
+      <img [src]="imageUrlPreview || selectedKnjiga.slika" alt="Prethodna slika" class="image-preview" />
+      <span *ngIf="imageUrlPreview && !selectedKnjiga.slika" class="preview-text">Novo učitana slika</span>
+      <span *ngIf="selectedKnjiga.slika && !imageUrlPreview" class="preview-text">Trenutna slika</span>
+      <span *ngIf="selectedKnjiga.slika && imageUrlPreview" class="preview-text">Nova slika (stara će biti zamijenjena)</span>
+    </div>
+    <div *ngIf="imageUploadError" class="error">
+      {{ imageUploadError }}
+    </div>
+  </div>
+
+  <div>
+    <label for="zanr">Žanr:</label>
+    <select id="zanr" name="zanr" [compareWith]="compareById" [(ngModel)]="selectedKnjiga.zanr" required #zanr="ngModel">
+      <option [ngValue]="null" disabled>Odaberite žanr</option>
+      <option *ngFor="let z of zanroviList" [ngValue]="z">{{ z.naziv }}</option>
+    </select>
+    <div *ngIf="(zanr.invalid && zanr.touched) || (isZanrEmpty() && zanr.touched)" class="error">
+      Žanr je obavezan.
+    </div>
+  </div>
+
+  <div>
+    <label for="tipKnjige">Tip Knjige:</label>
+    <select id="tipKnjige" [compareWith]="compareById" name="tipKnjige" [(ngModel)]="selectedKnjiga.tipKnjige" required #tipKnjige="ngModel">
+      <option [ngValue]="null" disabled>Odaberite tip knjige</option>
+      <option *ngFor="let tk of tipoviKnjigaList" [ngValue]="tk">{{ tk.naziv }}</option>
+    </select>
+    <div *ngIf="(tipKnjige.invalid && tipKnjige.touched) || (isTipKnjigeEmpty() && tipKnjige.touched)" class="error">
+      Tip Knjige je obavezan.
+    </div>
+  </div>
+
+  <div>
+    <label for="cijena">Cijena</label>
+    <input type="number" id="cijena"
+           [(ngModel)]="selectedKnjiga.cijena" name="cijena" #cijena="ngModel" step="0.01" min="0.01" required>
+    <div *ngIf="(cijena.invalid && cijena.touched)" class="error">
+      Cijena izdanja je neispravan.
+    </div>
+  </div>
+
+  <div>
+    <label for="autori">Autori:</label>
+    <select id="autori" [compareWith]="compareById" name="autori" [(ngModel)]="selectedKnjiga.autori" multiple required #autori="ngModel">
+      <option [ngValue]="null" disabled>Odaberite autore</option>
+      <option *ngFor="let a of autoriList" [ngValue]="a">{{ a.ime }} {{ a.prezime }}</option>
+    </select>
+    <div *ngIf="autori.invalid && autori.touched" class="error">
+      Potrebno je odabrati barem jednog autora.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="knjigaForm.invalid || !isDateValid() || isSlikaValid() || isZanrEmpty() || isTipKnjigeEmpty()">
+    {{ selectedKnjiga.idKnjiga ? 'Promijeni' : 'Spremi' }}
+  </button>
+  <button type="button" (click)="cancel()">Poništi</button>
+</form>
+</div>
+
+<div class="container">
+<div class="filters">
+  <div> <label>Naslov</label>
+  <input type="text" [(ngModel)]="filterNaslov" (input)="applyFiltersAndPagination()"/>
+  </div>
+<div><label>Tip</label>
+  <select [(ngModel)]="filterTip" (change)="applyFiltersAndPagination()">
+    <option [ngValue]="null">Svi tipovi</option>
+    <option *ngFor="let tip of tipoviKnjigaList" [ngValue]="tip.idTipKnjige">{{ tip.naziv }}</option>
+  </select>
+    </div>
+<div><label>Žanr</label>
+  <select [(ngModel)]="filterZanr" (change)="applyFiltersAndPagination()">
+    <option [ngValue]="null">Svi žanrovi</option>
+    <option *ngFor="let zanr of zanroviList" [ngValue]="zanr.idZanr">{{ zanr.naziv }}</option>
+  </select>
+    </div>
+<div><label>Autor</label>
+  <select [(ngModel)]="filterAutor" (change)="applyFiltersAndPagination()">
+    <option [ngValue]="null">Svi autori</option>
+    <option *ngFor="let autor of autoriList" [ngValue]="autor.idAutor">
+      {{ autor.ime }} {{ autor.prezime }}
+    </option>
+  </select>
+    </div>
+  <div><label>Cijena min</label>
+  <input type="number" [(ngModel)]="filterCijenaMin" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Cijena max</label>
+  <input type="number" [(ngModel)]="filterCijenaMax" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Datum od</label>
+  <input type="date" [(ngModel)]="filterDatumAfter" (change)="applyFiltersAndPagination()"/>
+  </div>
+  <div><label>Datum do</label>
+  <input type="date" [(ngModel)]="filterDatumBefore" (change)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+
+  <table>
+    <thead>
+       <tr>
+        <th>Naslov</th>
+        <th>Datum Izdanja</th>
+        <th>Slika</th>
+        <th>Žanr</th>
+        <th>Tip Knjige</th>
+        <th>Cijena</th>
+        <th>Autori</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let knjiga of paginatedKnjige">
+        <td>{{ knjiga.naslov }}</td>
+        <td>{{ knjiga.datumIzdanja | date:'dd.MM.yyyy' }}</td>
+        <td>
+          <img [src]="knjiga.slika" alt="Slika knjige {{ knjiga.naslov }}" class="slika" />
+        </td>
+        <td>{{ knjiga.zanr.naziv }}</td>
+        <td>{{ knjiga.tipKnjige.naziv }}</td>
+        <td>{{ knjiga.cijena | currency:'EUR':'symbol':'1.2-2' }}</td>
+        <td>{{ getAutorNames(knjiga.autori) }}</td>
+        <td>
+          <button (click)="edit(knjiga)">Edit</button>
+          <button (click)="delete(knjiga)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

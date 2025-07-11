@@ -1,29 +1,60 @@
 <nav class="navbar">
   <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-  <span class="separator">|</span>
   <a routerLink="/katalog" routerLinkActive="active">Katalog</a>
-    <ng-container *ngIf="isUser" >
-          <span class="separator">|</span>
- <a routerLink="/mojeRezervacije" routerLinkActive="active">Moje Rezervacije</a>
-    <span class="separator">|</span>
- <a routerLink="/mojKatalog" routerLinkActive="active">Moj Katalog</a>
-     <span class="separator">|</span>
- <a routerLink="/mojePosudbe" routerLinkActive="active">Moje Posudbe</a>
-  </ng-container>
-      <ng-container *ngIf="isKnjiznicar" >
-     <span class="separator">|</span>
- <a routerLink="/posudbe" routerLinkActive="active">Posudbe</a>
-  </ng-container>
-  <span class="separator">|</span>
   <a routerLink="/knjiznice" routerLinkActive="active">Knjižnice</a>
-  <span class="separator">|</span>
-    <a routerLink="/clanstva" routerLinkActive="active">Članstva</a>
-  <span class="separator">|</span>
+  <a routerLink="/clanstva" routerLinkActive="active">Članstva</a>
 
+  <div *ngIf="isUser" class="dropdown">
+    <button class="dropbtn">Korisnik</button>
+    <div class="dropdown-content">
+      <a routerLink="/mojeRezervacije" routerLinkActive="active">Moje Rezervacije</a>
+      <a routerLink="/mojKatalog" routerLinkActive="active">Moj Katalog</a>
+      <a routerLink="/mojePosudbe" routerLinkActive="active">Moje Posudbe</a>
+      <a routerLink="/mojaClanstva" routerLinkActive="active">Moja Članstva</a>
+    </div>
+  </div>
+
+  <div *ngIf="isKnjiznicar" class="dropdown">
+    <button class="dropbtn">Knjižničar</button>
+    <div class="dropdown-content">
+      <a routerLink="/posudbe" routerLinkActive="active">Posudbe</a>
+      <a routerLink="/rezervacije" routerLinkActive="active">Rezervacije</a>
+      <a routerLink="/uclanjivanje" routerLinkActive="active">Učlanjivanje</a>
+      <a routerLink="/posudbeKatalog" routerLinkActive="active">Katalog</a>
+    </div>
+  </div>
+
+  <div *ngIf="isVoditelj" class="dropdown">
+    <button class="dropbtn">Voditelj</button>
+    <div class="dropdown-content">
+      <a *ngIf="!isAdmin" routerLink="/autori" routerLinkActive="active">Autori</a>
+      <a *ngIf="!isAdmin" routerLink="/tipKnjige" routerLinkActive="active">Tipovi knjiga</a>
+      <a *ngIf="!isAdmin" routerLink="/zanr" routerLinkActive="active">Žanri</a>
+      <a *ngIf="!isAdmin" routerLink="/knjige" routerLinkActive="active">Knjige</a>
+      <a *ngIf="!isAdmin" routerLink="/knjiznicari" routerLinkActive="active">Knjižničari</a>
+      <a routerLink="/raspolaganja" routerLinkActive="active">Raspolaganja</a>
+      <a *ngIf="!isAdmin" routerLink="/racuni" routerLinkActive="active">Računi</a>
+    </div>
+  </div>
+
+
+  <div *ngIf="isAdmin" class="dropdown">
+    <button class="dropbtn">Admin</button>
+    <div class="dropdown-content">
+      <a routerLink="/autori" routerLinkActive="active">Autori</a>
+      <a routerLink="/tipKnjige" routerLinkActive="active">Tipovi knjiga</a>
+      <a routerLink="/zanr" routerLinkActive="active">Žanri</a>
+      <a routerLink="/knjige" routerLinkActive="active">Knjige</a>
+      <a routerLink="/knjizniceAdmin" routerLinkActive="active">Knjižnice</a>
+      <a routerLink="/mjesta" routerLinkActive="active">Mjesta</a>
+      <a routerLink="/korisnici" routerLinkActive="active">Korisnici</a>
+      <a routerLink="/knjiznicari" routerLinkActive="active">Zaposlenici</a>
+            <a routerLink="/racuni" routerLinkActive="active">Računi</a>
+    </div>
+  </div>
 
   <ng-container *ngIf="!isLoggedIn; else loggedIn">
     <a routerLink="/login" routerLinkActive="active">Login</a>
-    <span class="separator">|</span>
     <a routerLink="/signup" routerLinkActive="active">Signup</a>
   </ng-container>
 

@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Posudba } from '../../model/posudba.model';
 import { PosudbaService } from '../../services/posudba.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { Racun } from '../../model/racun.model';
+import { PdfService } from '../../services/pdf-service';
+
 
 @Component({
   selector: 'app-posudbe',
   standalone: false,
   templateUrl: './posudbe.component.html',
-  styleUrl: './posudbe.component.css'
+  styleUrl: '../knjige/knjige.component.css'
 })
 export class PosudbeComponent  implements OnInit {
 
@@ -16,7 +21,7 @@ posudbe: Posudba[] = [];
   selectedKnjiznica = '';
   knjiznice: string[] = [];
 
-  constructor(private posudbaService: PosudbaService) {
+  constructor(private posudbaService: PosudbaService, private pdfService: PdfService) {
     }
 
   ngOnInit(): void {
@@ -41,20 +46,23 @@ posudbe: Posudba[] = [];
     }
 
   vratiKnjigu(posudba: Posudba): void{
-    const cijena = this.getOverdueFee(posudba.krajPosudbe);
-    if (cijena > 0) {
-
-    }
      if (posudba.idPosudba !== undefined) {
-        this.posudbaService.otkaziRezervaciju(posudba.idPosudba).subscribe(() => {
+        this.posudbaService.vratiKnjigu(posudba.idPosudba).subscribe((response) => {
           this.posudbe = this.posudbe.filter(p => p.idPosudba !== posudba.idPosudba);
+          if (response.cijena){
+              this.generatePDF(response);
+          }
         });
       } else {
         console.error('Posudba nema idPosudba!');
       }
   }
 
- getOverdueFee(date: Date): number {
+isExpired(date: Date): boolean {
+  return new Date(date) < new Date();
+}
+
+getOverdueFee(date: Date): number {
   const danas = new Date();
   const krajPosudbe = new Date(date);
   const razlika = Math.floor(
@@ -62,5 +70,25 @@ posudbe: Posudba[] = [];
   );
   return razlika > 0 ? razlika * 0.10 : 0;
 }
+
+generatePDF(racun: Racun): void { 
+  this.pdfService.generateRacunPDF(racun);
+  } 
+
+
+  osetecenaKnjiga(posudba: Posudba): void{
+     if (posudba.idPosudba !== undefined) {
+        this.posudbaService.ostecenaKnjiga(posudba.idPosudba).subscribe((response) => {
+          this.posudbe = this.posudbe.filter(p => p.idPosudba !== posudba.idPosudba);
+          if (response.cijena){
+              this.generatePDF(response);
+          }
+        });
+      } else {
+        console.error('Posudba nema idPosudba!');
+      }
+  }
+
+
 
 }

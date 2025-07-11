@@ -1,0 +1,100 @@
+<div class="container">
+  <h2>Knjižnice</h2>
+
+<form #knjiznicaForm="ngForm" (ngSubmit)="onSubmit(knjiznicaForm)" novalidate>
+  <div>
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" name="naziv" [(ngModel)]="selectedKnjiznica.naziv" required #naziv="ngModel" />
+    <div *ngIf="naziv.invalid && naziv.touched" class="error">
+      Naziv je obavezan.
+    </div>
+  </div>
+
+<div>
+    <label for="slikaFile">Učitaj sliku:</label>
+    <input type="file" id="slikaFile" name="slikaFile" (change)="onFileSelected($event)" accept="image/*" />
+
+    <div *ngIf="selectedKnjiznica.slika || imageUrlPreview" class="image-preview-container">
+      <img [src]="imageUrlPreview || selectedKnjiznica.slika" alt="Prethodna slika" class="image-preview" />
+      <span *ngIf="imageUrlPreview && !selectedKnjiznica.slika" class="preview-text">Novo učitana slika</span>
+      <span *ngIf="selectedKnjiznica.slika && !imageUrlPreview" class="preview-text">Trenutna slika</span>
+      <span *ngIf="selectedKnjiznica.slika && imageUrlPreview" class="preview-text">Nova slika (stara će biti zamijenjena)</span>
+    </div>
+    <div *ngIf="imageUploadError" class="error">
+      {{ imageUploadError }}
+    </div>
+  </div>
+
+  <div>
+    <label for="mjesto">Mjesto:</label>
+    <select id="mjesto" name="mjesto" [compareWith]="compareById" [(ngModel)]="selectedKnjiznica.mjesto" required #mjesto="ngModel">
+      <option [ngValue]="null" disabled>Odaberite Mjesto</option>
+      <option *ngFor="let m of mjesta" [ngValue]="m">{{ m.naziv }}</option>
+    </select>
+    <div *ngIf="(mjesto.invalid && mjesto.touched) || (isMjestoEmpty() && mjesto.touched)" class="error">
+      Mjesto je obavezno.
+    </div>
+  </div>
+
+    <div>
+    <label for="adresa">Adresa:</label>
+    <input type="text" id="adresa" name="adresa" [(ngModel)]="selectedKnjiznica.adresa" required #adresa="ngModel" />
+    <div *ngIf="adresa.invalid && adresa.touched" class="error">
+      Adresa je obavezan.
+    </div>
+  </div>
+
+
+  <button type="submit" [disabled]="knjiznicaForm.invalid || isSlikaValid() || isMjestoEmpty()">
+    {{ selectedKnjiznica.idKnjiznica ? 'Promijeni' : 'Spremi' }}
+  </button>
+  <button type="button" (click)="cancel()">Poništi</button>
+</form>
+</div>
+<div class="container">
+  <div class="filters">
+  <div> <label>Naziv</label>
+  <input type="text" [(ngModel)]="filterNaziv" (input)="applyFiltersAndPagination()"/>
+  </div>
+    <div> <label>Adresa</label>
+  <input type="text" [(ngModel)]="filterAdresa" (input)="applyFiltersAndPagination()"/>
+  </div>
+<div><label>Mjesto</label>
+  <select [(ngModel)]="filterMjesto" (change)="applyFiltersAndPagination()">
+    <option [ngValue]="null">Sva mjesta</option>
+    <option *ngFor="let mjesto of mjesta" [ngValue]="mjesto.idMjesto">{{ mjesto.naziv }}</option>
+  </select>
+    </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+       <tr>
+        <th>Naslov</th>
+        <th>Slika</th>
+        <th>Mjesto</th>
+        <th>Adresa</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let knjiznica of paginatedKnjiznice">
+        <td>{{ knjiznica.naziv }}</td>
+        <td>
+          <img [src]="knjiznica.slika" alt="Slika knjiznice {{ knjiznica.naziv }}" class="slika" />
+        </td>
+        <td>{{ knjiznica.mjesto.naziv }}</td>
+        <td>{{ knjiznica.adresa }}</td>
+        <td>
+          <button (click)="edit(knjiznica)">Edit</button>
+          <button (click)="delete(knjiznica)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

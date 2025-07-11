@@ -1,0 +1,47 @@
+<div class="container">
+  <h2>Tipovi knjiga</h2>
+
+<form #tipKnjigeForm="ngForm" (ngSubmit)="onSubmit(tipKnjigeForm)" novalidate>
+  <div>
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" name="naziv" [(ngModel)]="selectedTipKnjige.naziv" required #naziv="ngModel"/>
+    <div *ngIf="naziv.invalid && naziv.touched" class="error">
+      Naziv je obavezan.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="tipKnjigeForm.invalid">{{ selectedTipKnjige.idTipKnjige ? 'Promijeni' : 'Spremi' }}</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
+</div>
+
+<div class="container">
+<div class="filters">
+  <div> <label>Tip</label>
+  <input type="text" [(ngModel)]="filterNaziv" (input)="applyFiltersAndPagination()"/>
+  </div>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Naziv</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipKnjige of paginatedTipovi">
+        <td>{{ tipKnjige.naziv }}</td>
+        <td>
+          <button (click)="edit(tipKnjige)">Edit</button>
+          <button (click)="delete(tipKnjige.idTipKnjige!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

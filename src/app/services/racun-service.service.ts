@@ -16,6 +16,9 @@ export class RacunService {
   }
 
 
+  getAll(): Observable<Racun[]> {
+    return this.http.get<Racun[]>(this.apiUrl+"/all");
+  }
 
   
 }

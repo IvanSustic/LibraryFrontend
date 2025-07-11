@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import L from 'leaflet';
 import { Knjiznica } from '../../model/knjiznica.model';
-import { KnjzinicaService } from '../../services/knjzinica-service.service';
+import { KnjiznicaService } from '../../services/knjizica-service';
 
 @Component({
   selector: 'app-knjiznica',
@@ -15,7 +15,7 @@ export class KnjiznicaComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private knjiznicaService: KnjzinicaService
+    private knjiznicaService: KnjiznicaService
   ) {}
 
   ngOnInit() {

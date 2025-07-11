@@ -26,7 +26,22 @@ import { MojKatalogComponent } from './components/moj-katalog/moj-katalog.compon
 import { MojeRezervacijeComponent } from './components/moje-rezervacije/moje-rezervacije.component';
 import { MojePosudbeComponent } from './components/moje-posudbe/moje-posudbe.component';
 
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MojaClanstvaComponent } from './components/moja-clanstva/moja-clanstva.component';
+import { UclanjivanjeComponent } from './components/uclanjivanje/uclanjivanje.component';
+import { PosudbeKatalogComponent } from './components/posudbe-katalog/posudbe-katalog.component';
+import { AutoriComponent } from './components/autori/autori.component';
+import { TipKnjigeComponent } from './components/tip-knjige/tip-knjige.component';
+import { ZanrComponent } from './components/zanr/zanr.component';
+import { KnjigeComponent } from './components/knjige/knjige.component';
+import { ZaposlenikComponent } from './components/zaposlenik/zaposlenik.component';
+import { RaspoloziveComponent } from './components/raspolozive/raspolozive.component';
+import { KnjizniceComponent } from './components/knjiznice/knjiznice.component';
+import { MjestoComponent } from './components/mjesto/mjesto.component';
+import { KorisnikComponent } from './components/korisnik/korisnik.component';
+import { RacuniComponent } from './components/racuni/racuni.component';
+import { ResetComponent } from './components/reset/reset.component';
+import { LozinkaResetComponent } from './components/lozinka-reset/lozinka-reset.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +62,21 @@ import { MojePosudbeComponent } from './components/moje-posudbe/moje-posudbe.com
     MojKatalogComponent,
     MojeRezervacijeComponent,
     MojePosudbeComponent,
+    MojaClanstvaComponent,
+    UclanjivanjeComponent,
+    PosudbeKatalogComponent,
+    AutoriComponent,
+    TipKnjigeComponent,
+    ZanrComponent,
+    KnjigeComponent,
+    ZaposlenikComponent,
+    RaspoloziveComponent,
+    KnjizniceComponent,
+    MjestoComponent,
+    KorisnikComponent,
+    RacuniComponent,
+    ResetComponent,
+    LozinkaResetComponent,
 
 
   ],
@@ -58,6 +88,7 @@ import { MojePosudbeComponent } from './components/moje-posudbe/moje-posudbe.com
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
+        MatSnackBarModule,
   ],
   providers: [provideHttpClient(withInterceptors([authInterceptor]))],
   bootstrap: [AppComponent]

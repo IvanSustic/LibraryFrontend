@@ -1,39 +1,38 @@
 .container {
-  margin: 20px auto;
+  margin: 2rem auto;
   max-width: 900px;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #fdfaf5;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(50, 35, 10, 0.1);
+  font-family: 'Georgia', serif;
+  color: #3e2f1c;
 }
 
 h2 {
-  margin-bottom: 16px;
-  color: #2c3e50;
-  font-size: 24px;
+  margin-bottom: 1.5rem;
+  color: #5d4037;
+  font-size: 1.75rem;
+  border-bottom: 1px solid #d7ccc8;
+  padding-bottom: 0.5rem;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 1rem;
 }
 
 th {
   text-align: left;
-  background-color: #f4f4f4;
-  padding: 12px;
+  background-color: #f5efe6;
+  padding: 0.75rem 1rem;
+  color: #5d4037;
+  border-bottom: 2px solid #d7ccc8;
 }
 
 td {
-  padding: 10px;
-  border-top: 1px solid #e0e0e0;
-}
-
-.expired-banner {
-  background-color: #ffdddd;
-  color: #a60000;
-  padding: 12px;
-  text-align: center;
-  font-weight: bold;
-  border-bottom: 2px solid #d60000;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e0dcd3;
+  color: #4e342e;
 }

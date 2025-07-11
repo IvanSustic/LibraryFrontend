@@ -1,1 +1,36 @@
-<p>rezervacije works!</p>
+<div class="container">
+    <h2>Rezervacije</h2>
+   <div class="filters">
+      <input type="text" placeholder="Pretraži email..." [(ngModel)]="searchTerm" />
+            <select [(ngModel)]="selectedKnjiznica">
+        <option value="">Sve knjižnice</option>
+        <option *ngFor="let nazivKnjiznice of knjiznice" [value]="nazivKnjiznice">{{ nazivKnjiznice }}</option>
+      </select>
+      <button (click)="resetFilters()">Reset</button>
+    </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Korisnik</th>
+        <th>Knjižnica</th>
+        <th>Knjiga</th>
+        <th>Datum početka</th>
+        <th>Datum kraja</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rezervacija of filteredRezervacije">
+        <td>{{rezervacija.korisnikEmail}}</td>
+        <td>{{ rezervacija.nazivKnjiznice }}</td>
+        <td>{{ rezervacija.nazivKnjige }}</td>
+        <td>{{ rezervacija.datumRezervacije | date: 'shortDate' }}</td>
+        <td>{{ rezervacija.krajRezervacije | date: 'shortDate' }}</td>
+        <td><button (click)="posudiKnjigu(rezervacija)">Posudi knjigu</button></td>
+        <td><button (click)="otkaziRezervaciju(rezervacija)">Otkaži rezervaciju</button></td>
+      </tr> 
+    </tbody>
+  </table>
+</div>

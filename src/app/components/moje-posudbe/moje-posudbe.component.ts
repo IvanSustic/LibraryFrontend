@@ -8,7 +8,7 @@ import { PosudbaService } from '../../services/posudba.service';
   selector: 'app-moje-posudbe',
   standalone: false,
   templateUrl: './moje-posudbe.component.html',
-  styleUrl: './moje-posudbe.component.css'
+  styleUrl: '../knjige/knjige.component.css'
 })
 export class MojePosudbeComponent implements OnInit {
 

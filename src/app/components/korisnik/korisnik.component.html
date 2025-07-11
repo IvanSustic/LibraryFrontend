@@ -1,0 +1,108 @@
+<div class="container">
+  <h2>Korisinci</h2>
+
+<form #korisnikForm="ngForm" (ngSubmit)="onSubmit(korisnikForm)" novalidate>
+  <div>
+    <label for="ime">Ime:</label>
+    <input type="text" id="ime" name="ime" [(ngModel)]="selectedKorisnik.ime" required #ime="ngModel" />
+    <div *ngIf="ime.invalid && ime.touched" class="error">
+      Ime je obavezno.
+    </div>
+  </div>
+
+  <div>
+    <label for="prezime">Prezime:</label>
+    <input type="text" id="prezime" name="prezime" [(ngModel)]="selectedKorisnik.prezime" required #prezime="ngModel" />
+    <div *ngIf="prezime.invalid && prezime.touched" class="error">
+      Prezime je obavezno.
+    </div>
+  </div>
+
+<div>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" [(ngModel)]="selectedKorisnik.email" required email #email="ngModel" />
+  <div *ngIf="email.invalid && email.touched" class="error">
+    <div *ngIf="email.errors?.['required']">Email je obavezan.</div>
+    <div *ngIf="email.errors?.['email']">Email nije ispravnog formata.</div>
+  </div>
+</div>
+
+  
+ <div>
+    <label for="lozinka">Lozinka:</label>
+    <input type="password" id="lozinka" name="lozinka" [(ngModel)]="selectedKorisnik.lozinka" #lozinka="ngModel" />
+    <div *ngIf="lozinka.invalid && lozinka.touched && !selectedKorisnik.idKorisnik" class="error">
+      Lozinka je obavezna prilikom novog unosa.
+    </div>
+  </div>
+
+    
+ <div>
+    <label for="lozinka2">Ponovite lozinku:</label>
+    <input type="password" id="lozinka2" name="lozinka2" [(ngModel)]="lozinkaDva" #lozinka2="ngModel"/>
+    <div *ngIf="(lozinka2.invalid && lozinka2.touched) || lozinkaDva!=selectedKorisnik.lozinka" class="error">
+      Lozinke se moraju podudarati.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="korisnikForm.invalid || lozinkaDva!=selectedKorisnik.lozinka || (!selectedKorisnik.idKorisnik && !lozinka.value)">
+    {{ selectedKorisnik.idKorisnik ? 'Promijeni' : 'Spremi' }}
+  </button>
+  <button type="button" (click)="cancel()">Poništi</button>
+</form>
+</div>
+
+<div class="container">
+  <div class="filters">
+  <label>
+    Ime:
+    <input type="text" [(ngModel)]="filterIme" (input)="applyFiltersAndPagination()" />
+  </label>
+  <label>
+    Prezime:
+    <input type="text" [(ngModel)]="filterPrezime" (input)="applyFiltersAndPagination()" />
+  </label>
+    <br>
+  <label>
+    Email:
+    <input type="text" [(ngModel)]="filterEmail" (input)="applyFiltersAndPagination()" />
+  </label>
+
+  <label>
+    Status:
+    <select [(ngModel)]="filterIskljucen" (change)="applyFiltersAndPagination()">
+      <option value="svi">Svi</option>
+      <option value="aktivni">Aktivni</option>
+      <option value="iskljuceni">Isključeni</option>
+    </select>
+  </label>
+  <button (click)="resetFilters()">Reset</button>
+</div>
+  <table>
+    <thead>
+       <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let korisnik of paginatedKorisnici">
+        <td>{{ korisnik.ime }}</td>
+        <td>{{ korisnik.prezime }}</td>
+        <td>{{ korisnik.email }}</td>
+        <td>
+          <button (click)="edit(korisnik)">Edit</button>
+          <button *ngIf="!korisnik.iskljucen" (click)="disable(korisnik)">Dekativiraj</button>
+          <p *ngIf="korisnik.iskljucen">Ovaj zaposlenik je isključen</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  <span class="page-number">{{ currentPage }}/{{totalPages}}</span>
+  <button (click)="nextPage()" [disabled]="!hasNextPage()">»</button>
+</div>
+</div>

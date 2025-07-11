@@ -1,0 +1,21 @@
+<form #lozinkaForm="ngForm" (ngSubmit)="submit()" class="signup-form">
+  <h2>Promijeni lozinku</h2>
+
+   <div class="form-group">
+    <label for="lozinka">Lozinka:</label>
+    <input type="password" id="lozinka" name="lozinka" [(ngModel)]="lozinka" #lozinka1="ngModel" />
+    <div *ngIf="lozinka1.invalid && lozinka1.touched" class="error">
+      Lozinka je obavezna prilikom novog unosa.
+    </div>
+  </div>
+
+ <div class="form-group">
+    <label for="lozinka2">Ponovite lozinku:</label>
+    <input type="password" id="lozinka2" name="lozinka2" [(ngModel)]="lozinkaDva" #lozinka2="ngModel"/>
+    <div *ngIf="(lozinka2.invalid && lozinka2.touched) || lozinkaDva!=lozinka" class="error">
+      Lozinke se moraju podudarati.
+    </div>
+  </div>
+
+  <button type="submit">Registriraj se</button>
+</form>
