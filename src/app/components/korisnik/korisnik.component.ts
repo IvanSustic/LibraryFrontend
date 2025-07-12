@@ -62,15 +62,18 @@ getEmptyKorisnik(): Korisnik {
 
   disable(korisnik: Korisnik) {
     this.selectedKorisnik = { ...korisnik };
+    if (confirm('Sigurno želite isključiti korisnika?')) {
     this.korisnikService.disableKorisnik(this.selectedKorisnik)
                 .subscribe({
                     next: (response) => {
                       this.snackBar.poruka('Korisnik uspješno onemogućen');
+                      this.loadKorisnici();
                     },
                     error: (error) => {
                         this.snackBar.poruka(error.error);
                     }
         });
+      }
   }
 
   cancel() {

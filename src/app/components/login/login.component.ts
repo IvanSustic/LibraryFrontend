@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service.service';
 import { Router } from '@angular/router';
+import { SnackBarService } from '../../services/snack-bar.service';
 @Component({
   selector: 'app-login',
   standalone: false,
@@ -12,7 +13,9 @@ export class LoginComponent {
   loginForm!: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
+    private snackBar: SnackBarService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -34,7 +37,7 @@ export class LoginComponent {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.error('Login failed', err);
+        this.snackBar.poruka('Neuspješna prijava. Provjerite email i lozinku.');
       }
     });
     
@@ -53,7 +56,7 @@ export class LoginComponent {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.error('Login failed', err);
+        this.snackBar.poruka('Neuspješna prijava. Provjerite email i lozinku.');
       }
     });
     

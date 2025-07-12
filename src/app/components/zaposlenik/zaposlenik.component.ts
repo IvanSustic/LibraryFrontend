@@ -123,6 +123,11 @@ getEmptyZaposlenik(): Zaposlenik {
                 .subscribe({
                     next: (response) => {
                         console.log('Zaposlenik disable-an:', response);
+                        if (this.isAdmin) {
+                        this.loadZaposleniciAdmin();
+                        } else {
+                        this.loadZaposlenici();
+                        }
                     },
                     error: (error) => {
                         this.snackBar.poruka(error.error);

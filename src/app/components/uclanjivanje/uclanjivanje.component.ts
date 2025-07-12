@@ -29,6 +29,15 @@ export class UclanjivanjeComponent  implements OnInit {
     private pdfService: PdfService
   ) {}
 
+  resetFrom() {
+    this.clanstvoForm = this.fb.group({
+      idKorisnik: ['', Validators.required],
+      idKnjiznica: ['', Validators.required],
+      datumUclanjenja: [new Date(), Validators.required],
+      krajUclanjenja: ['']
+    })
+  }
+
   ngOnInit(): void {
     this.clanstvoForm = this.fb.group({
       idKorisnik: ['', Validators.required],
@@ -50,7 +59,10 @@ export class UclanjivanjeComponent  implements OnInit {
     if (this.clanstvoForm.valid) {
       this.clanstvoService.dodajClanstvo(this.clanstvoForm.value.idKorisnik, this.clanstvoForm.value.idKnjiznica).subscribe((data) => {
         this.pdfService.generateRacunPDF(data);
-        this.clanstvoForm.reset();
+        this.resetFrom();
+        this.clanstvoService.getClanstvaForZaposlenik().subscribe(data => {
+        this.clanstva = data;
+     });
       });
     }
   }
@@ -58,7 +70,7 @@ export class UclanjivanjeComponent  implements OnInit {
   produziClanstvo(clanstvo: Clanstvo) {
   this.clanstvoService.dodajClanstvo(clanstvo.email,clanstvo.idKnjiznica).subscribe((data) => {
         this.pdfService.generateRacunPDF(data);
-        this.clanstvoForm.reset();
+        this.resetFrom();
           this.clanstvoService.getClanstvaForZaposlenik().subscribe(data => {
         this.clanstva = data;
      });
@@ -69,7 +81,7 @@ export class UclanjivanjeComponent  implements OnInit {
     if (this.clanstvoForm.valid) {
       this.clanstvoService.dodajSvaClanstva(this.clanstvoForm.value.idKorisnik).subscribe((data) => {
         this.pdfService.generateRacunPDF(data);
-        this.clanstvoForm.reset();
+        this.resetFrom();
           this.clanstvoService.getClanstvaForZaposlenik().subscribe(data => {
         this.clanstva = data;
      });
